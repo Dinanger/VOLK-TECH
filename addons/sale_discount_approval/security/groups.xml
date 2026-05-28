@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_sale_discount_supervisor"
+            model="res.groups">
+
+        <field name="name">
+            Discount Supervisor
+        </field>
+
+        <!-- Categoría -->
+        <field name="category_id"
+               ref="base.module_category_hidden"/>
+
+        <!-- Hereda permisos de ventas administrador -->
+        <field name="implied_ids"
+               eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+
+    </record>
+
+</odoo>

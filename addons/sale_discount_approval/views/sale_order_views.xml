@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================================================== -->
+    <!-- SALE ORDER FORM VIEW -->
+    <!-- ===================================================== -->
+
+    <record id="view_order_form_discount_approval"
+            model="ir.ui.view">
+
+        <field name="name">
+            sale.order.form.discount.approval
+        </field>
+
+        <field name="model">sale.order</field>
+
+        <field name="inherit_id"
+               ref="sale.view_order_form"/>
+
+        <field name="arch" type="xml">
+
+            <!-- HEADER BUTTONS -->
+            <xpath expr="//header" position="inside">
+
+                <button name="action_request_discount_approval"
+                        string="Request Approval"
+                        type="object"
+                        class="btn-primary"
+                        invisible="not requires_discount_approval or discount_approval_status != 'none'"/>
+
+                <button name="action_approve_discount"
+                        string="Approve"
+                        type="object"
+                        class="btn-success"
+                        groups="sale_discount_approval.group_sale_discount_supervisor"
+                        invisible="discount_approval_status != 'pending'"/>
+
+                <button name="action_reject_discount"
+                        string="Reject"
+                        type="object"
+                        class="btn-danger"
+                        groups="sale_discount_approval.group_sale_discount_supervisor"
+                        invisible="discount_approval_status != 'pending'"/>
+
+                <button name="action_reset_discount_approval"
+                        string="Reset Approval"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="discount_approval_status == 'none'"/>
+
+            </xpath>
+
+
+            <!-- ALERTS -->
+            <xpath expr="//sheet" position="before">
+
+                <div class="alert alert-warning"
+                     invisible="not requires_discount_approval">
+
+                    <strong>
+                        High Discount Alert:
+                    </strong>
+
+                    This order contains discounts above 5%
+                    and requires supervisor approval.
+
+                </div>
+
+                <div class="alert alert-info"
+                     invisible="discount_approval_status != 'pending'">
+
+                    <strong>
+                        Pending Approval:
+                    </strong>
+
+                    Waiting for supervisor approval.
+
+                </div>
+
+                <div class="alert alert-success"
+                     invisible="discount_approval_status != 'approved'">
+
+                    <strong>
+                        Approved:
+                    </strong>
+
+                    Discount approved successfully.
+
+                </div>
+
+                <div class="alert alert-danger"
+                     invisible="discount_approval_status != 'rejected'">
+
+                    <strong>
+                        Rejected:
+                    </strong>
+
+                    Discount request rejected.
+
+                </div>
+
+            </xpath>
+
+
+            <!-- APPROVAL FIELDS -->
+            <xpath expr="//sheet" position="inside">
+
+                <group string="Discount Approval"
+                       invisible="not requires_discount_approval">
+
+                    <field name="requires_discount_approval"
+                           invisible="1"/>
+
+                    <field name="discount_approval_status"
+                           readonly="1"/>
+
+                    <field name="discount_approval_user_id"
+                           readonly="1"/>
+
+                    <field name="high_discount_reason"
+                           placeholder="Enter reason for high discount..."
+                           readonly="discount_approval_status != 'none'"/>
+
+                </group>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+
+
+    <!-- ===================================================== -->
+    <!-- SALE ORDER LIST VIEW -->
+    <!-- ===================================================== -->
+
+    <record id="view_order_tree_discount_approval"
+            model="ir.ui.view">
+
+        <field name="name">
+            sale.order.tree.discount.approval
+        </field>
+
+        <field name="model">sale.order</field>
+
+        <field name="inherit_id"
+               ref="sale.view_quotation_tree_with_onboarding"/>
+
+        <field name="arch" type="xml">
+
+            <!-- Odoo 18 uses LIST -->
+            <xpath expr="//list"
+                   position="attributes">
+
+                <attribute name="decoration-warning">
+                    requires_discount_approval and discount_approval_status == 'none'
+                </attribute>
+
+                <attribute name="decoration-info">
+                    discount_approval_status == 'pending'
+                </attribute>
+
+                <attribute name="decoration-success">
+                    discount_approval_status == 'approved'
+                </attribute>
+
+                <attribute name="decoration-danger">
+                    discount_approval_status == 'rejected'
+                </attribute>
+
+            </xpath>
+
+
+            <!-- ADD STATUS FIELD -->
+            <xpath expr="//field[@name='name']"
+                   position="after">
+
+                <field name="discount_approval_status"
+                       optional="show"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+
+
+    <!-- ===================================================== -->
+    <!-- SEARCH VIEW -->
+    <!-- ===================================================== -->
+
+    <record id="view_order_search_discount_approval"
+            model="ir.ui.view">
+
+        <field name="name">
+            sale.order.search.discount.approval
+        </field>
+
+        <field name="model">sale.order</field>
+
+        <field name="inherit_id"
+               ref="sale.view_sales_order_filter"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//search"
+                   position="inside">
+
+                <separator/>
+
+                <filter name="high_discount"
+                        string="High Discount"
+                        domain="[('requires_discount_approval', '=', True)]"/>
+
+                <filter name="pending_discount"
+                        string="Pending Approval"
+                        domain="[('discount_approval_status', '=', 'pending')]"/>
+
+                <filter name="approved_discount"
+                        string="Approved"
+                        domain="[('discount_approval_status', '=', 'approved')]"/>
+
+                <filter name="rejected_discount"
+                        string="Rejected"
+                        domain="[('discount_approval_status', '=', 'rejected')]"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>
