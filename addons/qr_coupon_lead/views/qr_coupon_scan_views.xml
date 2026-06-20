@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        QR COUPON SCAN - FORM VIEW
+        ========================================================================
+        -->
+
+        <record id="view_qr_coupon_scan_form" model="ir.ui.view">
+            <field name="name">qr.coupon.scan.form</field>
+            <field name="model">qr.coupon.scan</field>
+            <field name="arch" type="xml">
+                <form string="QR Coupon Scan">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="customer_name"/>
+                            </h1>
+                        </div>
+
+                        <group string="Scan Details">
+                            <group>
+                                <field name="scan_date"/>
+                                <field name="status_at_scan"/>
+                                <field name="coupon_id"/>
+                            </group>
+                            <group>
+                                <field name="lead_id"/>
+                            </group>
+                        </group>
+
+                        <group string="Customer Information">
+                            <group>
+                                <field name="customer_name"/>
+                                <field name="customer_email"/>
+                                <field name="customer_phone"/>
+                            </group>
+                        </group>
+
+                        <group string="Network Information">
+                            <group>
+                                <field name="ip_address"/>
+                                <field name="user_agent"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--
+        ========================================================================
+        QR COUPON SCAN - TREE VIEW (LIST)
+        ========================================================================
+        -->
+
+        <record id="view_qr_coupon_scan_list" model="ir.ui.view">
+            <field name="name">qr.coupon.scan.list</field>
+            <field name="model">qr.coupon.scan</field>
+            <field name="arch" type="xml">
+                <list string="Coupon Scans">
+                    <field name="scan_date"/>
+                    <field name="coupon_id"/>
+                    <field name="customer_name"/>
+                    <field name="customer_email"/>
+                    <field name="customer_phone"/>
+                    <field name="status_at_scan"/>
+                    <field name="ip_address"/>
+                    <field name="lead_id"/>
+                </list>
+            </field>
+        </record>
+
+        <!--
+        ========================================================================
+        QR COUPON SCAN - SEARCH VIEW
+        ========================================================================
+        -->
+
+        <record id="view_qr_coupon_scan_search" model="ir.ui.view">
+            <field name="name">qr.coupon.scan.search</field>
+            <field name="model">qr.coupon.scan</field>
+            <field name="arch" type="xml">
+                <search string="QR Coupon Scan">
+                    <field name="customer_name"/>
+                    <field name="customer_email"/>
+                    <field name="coupon_id"/>
+                    <field name="ip_address"/>
+
+                    <separator/>
+
+                    <filter name="filter_has_lead" string="With Lead" domain="[('lead_id', '!=', False)]"/>
+                    <filter name="filter_no_lead" string="Without Lead" domain="[('lead_id', '=', False)]"/>
+
+                    <separator/>
+
+                    <filter name="filter_active_scan" string="Active Coupon" domain="[('status_at_scan', '=', 'active')]"/>
+                    <filter name="filter_expired_scan" string="Expired Coupon" domain="[('status_at_scan', '=', 'expired')]"/>
+
+                    <separator/>
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_coupon" string="Coupon" context="{'group_by': 'coupon_id'}"/>
+                        <filter name="group_status" string="Coupon Status" context="{'group_by': 'status_at_scan'}"/>
+                        <filter name="group_date" string="Scan Date" context="{'group_by': 'scan_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--
+        ========================================================================
+        QR COUPON SCAN - ACTION
+        ========================================================================
+        -->
+
+        <record id="action_qr_coupon_scan" model="ir.actions.act_window">
+            <field name="name">Coupon Scans</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">qr.coupon.scan</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_qr_coupon_scan_search"/>
+            <field name="context">{}</field>
+            <field name="help">Track all coupon scans with customer information and device details.</field>
+        </record>
+
+    </data>
+</odoo>

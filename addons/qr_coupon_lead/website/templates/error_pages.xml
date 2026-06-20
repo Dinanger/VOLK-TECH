@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        ERROR PAGE TEMPLATE
+        ========================================================================
+
+        Generic error page with dynamic error messages.
+        Used for all error scenarios (not found, expired, used, invalid, etc.)
+        -->
+
+        <template id="error_page" name="Coupon Error Page">
+            <t t-call="website.layout">
+                <div id="wrap">
+                <div class="qr-coupon-error">
+                    <div class="container py-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+
+                                <!-- Error Card -->
+                                <div class="card shadow-lg">
+                                    <div class="card-header" t-att-class="'bg-%s text-white' % error_class">
+                                        <h2 class="mb-0">
+                                            <i t-if="error_class == 'danger'" class="fa fa-exclamation-circle"></i>
+                                            <i t-elif="error_class == 'warning'" class="fa fa-exclamation-triangle"></i>
+                                            <i t-else="" class="fa fa-info-circle"></i>
+                                            <span class="ms-2" t-esc="error_title"/>
+                                        </h2>
+                                    </div>
+
+                                    <div class="card-body text-center">
+                                        <!-- Error Message -->
+                                        <p class="fs-5 mb-4" t-esc="error_message"/>
+
+                                        <!-- Error Details (if applicable) -->
+                                        <div t-if="error_type == 'not_found'" class="alert alert-warning">
+                                            <p class="mb-0">
+                                                The coupon code you're looking for doesn't exist.
+                                                Please check the QR code or coupon code and try again.
+                                            </p>
+                                        </div>
+
+                                        <div t-if="error_type == 'expired'" class="alert alert-danger">
+                                            <p class="mb-0">
+                                                This promotion has ended. Please check our website for current offers.
+                                            </p>
+                                        </div>
+
+                                        <div t-if="error_type == 'inactive'" class="alert alert-warning">
+                                            <p class="mb-0">
+                                                This coupon is not currently active. It may start at a later date.
+                                            </p>
+                                        </div>
+
+                                        <div t-if="error_type == 'used'" class="alert alert-danger">
+                                            <p class="mb-0">
+                                                This coupon has reached its claim limit. We have other great offers available!
+                                            </p>
+                                        </div>
+
+                                        <div t-if="error_type == 'invalid_form'" class="alert alert-danger">
+                                            <p class="mb-0">
+                                                Some of the information you provided is invalid. Please check:
+                                            </p>
+                                            <ul class="mb-0 text-start">
+                                                <li>Name: Letters only, 2-100 characters</li>
+                                                <li>Email: Valid email format</li>
+                                                <li>Phone: At least 7 digits</li>
+                                            </ul>
+                                        </div>
+
+                                        <div t-if="error_type == 'error'" class="alert alert-danger">
+                                            <p class="mb-0">
+                                                An unexpected error occurred. Please try again later or contact support.
+                                            </p>
+                                        </div>
+
+                                        <!-- Action Buttons -->
+                                        <div class="d-grid gap-2 mt-4">
+                                            <a href="/" class="btn btn-primary btn-lg">
+                                                <i class="fa fa-home"></i> Return Home
+                                            </a>
+                                            <button class="btn btn-outline-secondary" onclick="history.back()">
+                                                <i class="fa fa-arrow-left"></i> Go Back
+                                            </button>
+                                        </div>
+
+                                        <!-- Support Info -->
+                                        <p class="text-muted mt-4 small">
+                                            If you need assistance, please contact our support team.
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

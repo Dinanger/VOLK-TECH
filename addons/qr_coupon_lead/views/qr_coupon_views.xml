@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        QR COUPON - FORM VIEW
+        ========================================================================
+        -->
+
+        <record id="view_qr_coupon_form" model="ir.ui.view">
+            <field name="name">qr.coupon.form</field>
+            <field name="model">qr.coupon</field>
+            <field name="arch" type="xml">
+                <form string="QR Coupon">
+                    <header>
+                        <field name="status" widget="statusbar" readonly="1"/>
+                    </header>
+
+                    <sheet>
+                        <!-- Main Content -->
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Coupon Name (e.g., Summer 20% Off)"/>
+                            </h1>
+                        </div>
+
+                        <!-- Coupon Code Section -->
+                        <group>
+                            <group string="Code &amp; QR">
+                                <field name="code" readonly="1"/>
+                                <field name="public_url" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+
+                        <!-- Discount Section -->
+                        <group string="Discount Configuration">
+                            <group>
+                                <field name="discount_type"/>
+                                <field name="discount_value"/>
+                            </group>
+                            <group>
+                                <field name="status" readonly="1" force_save="1"/>
+                            </group>
+                        </group>
+
+                        <!-- Date Section -->
+                        <group string="Validity Period">
+                            <group>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+
+                        <!-- Usage Limits -->
+                        <group string="Usage Limits">
+                            <group>
+                                <field name="max_usage"/>
+                                <field name="used_count" readonly="1"/>
+                            </group>
+                        </group>
+
+                        <!-- Description -->
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" placeholder="Coupon description for customers..."/>
+                            </page>
+
+                            <!-- QR Code Image Display -->
+                            <page string="QR Code">
+                                <div>
+                                    <p>QR Code Image:</p>
+                                    <field name="qr_code" widget="image"/>
+                                </div>
+                            </page>
+
+                            <!-- Related Scans -->
+                            <page string="Scans" invisible="not id">
+                                <field name="scans_ids" readonly="1">
+                                    <list>
+                                        <field name="scan_date"/>
+                                        <field name="customer_name"/>
+                                        <field name="customer_email"/>
+                                        <field name="customer_phone"/>
+                                        <field name="ip_address"/>
+                                        <field name="status_at_scan"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!--
+        ========================================================================
+        QR COUPON - TREE VIEW (LIST)
+        ========================================================================
+        -->
+
+        <record id="view_qr_coupon_list" model="ir.ui.view">
+            <field name="name">qr.coupon.list</field>
+            <field name="model">qr.coupon</field>
+            <field name="arch" type="xml">
+                <list string="QR Coupons" decoration-warning="status == 'draft'" decoration-info="status == 'active'" decoration-danger="status == 'used'" decoration-muted="status == 'expired'">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="discount_type"/>
+                    <field name="discount_value"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="max_usage"/>
+                    <field name="used_count"/>
+                    <field name="status"/>
+                </list>
+            </field>
+        </record>
+
+        <!--
+        ========================================================================
+        QR COUPON - KANBAN VIEW (By Status)
+        ========================================================================
+        -->
+
+        <record id="view_qr_coupon_kanban" model="ir.ui.view">
+            <field name="name">qr.coupon.kanban</field>
+            <field name="model">qr.coupon</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="status" quick_create="false">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="discount_value"/>
+                    <field name="discount_type"/>
+                    <field name="used_count"/>
+                    <field name="max_usage"/>
+                    <field name="status"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_record_title">
+                                        <strong><field name="code"/></strong> - <field name="name"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_card_body">
+                                    <p>
+                                        <strong>Discount:</strong>
+                                        <field name="discount_value"/>
+                                        <field name="discount_type" widget="char"/>
+                                    </p>
+                                    <p>
+                                        <strong>Usage:</strong>
+                                        <field name="used_count"/> / <field name="max_usage"/>
+                                    </p>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--
+        ========================================================================
+        QR COUPON - SEARCH VIEW (Filters)
+        ========================================================================
+        -->
+
+        <record id="view_qr_coupon_search" model="ir.ui.view">
+            <field name="name">qr.coupon.search</field>
+            <field name="model">qr.coupon</field>
+            <field name="arch" type="xml">
+                <search string="QR Coupon">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="discount_type"/>
+
+                    <separator/>
+
+                    <filter name="filter_active" string="Active" domain="[('status', '=', 'active')]"/>
+                    <filter name="filter_draft" string="Draft" domain="[('status', '=', 'draft')]"/>
+                    <filter name="filter_used" string="Used" domain="[('status', '=', 'used')]"/>
+                    <filter name="filter_expired" string="Expired" domain="[('status', '=', 'expired')]"/>
+
+                    <separator/>
+
+                    <filter name="filter_percentage" string="Percentage" domain="[('discount_type', '=', 'percentage')]"/>
+                    <filter name="filter_fixed" string="Fixed Amount" domain="[('discount_type', '=', 'fixed_amount')]"/>
+
+                    <separator/>
+
+                    <filter name="filter_active_flag" string="Enabled" domain="[('active', '=', True)]"/>
+                    <filter name="filter_inactive_flag" string="Disabled" domain="[('active', '=', False)]"/>
+
+                    <separator/>
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                        <filter name="group_discount_type" string="Discount Type" context="{'group_by': 'discount_type'}"/>
+                        <filter name="group_start_date" string="Start Date" context="{'group_by': 'start_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--
+        ========================================================================
+        QR COUPON - ACTION
+        ========================================================================
+        -->
+
+        <record id="action_qr_coupon" model="ir.actions.act_window">
+            <field name="name">QR Coupons</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">qr.coupon</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="search_view_id" ref="view_qr_coupon_search"/>
+            <field name="context">{}</field>
+            <field name="help">Manage promotional QR coupons. Each coupon generates a unique QR code that customers can scan to claim discounts.</field>
+        </record>
+
+    </data>
+</odoo>

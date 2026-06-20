@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_qr_coupon_manager,QR Coupon - Manager,model_qr_coupon,group_qr_coupon_manager,1,1,1,1
+access_qr_coupon_viewer,QR Coupon - Viewer,model_qr_coupon,group_qr_coupon_viewer,1,0,0,0
+access_qr_coupon_scan_manager,QR Coupon Scan - Manager,model_qr_coupon_scan,group_qr_coupon_manager,1,0,0,0
+access_qr_coupon_scan_viewer,QR Coupon Scan - Viewer,model_qr_coupon_scan,group_qr_coupon_viewer,1,0,0,0
+access_qr_coupon_scan_creator,QR Coupon Scan - Lead Creator,model_qr_coupon_scan,group_qr_coupon_lead_creator,1,0,0,0

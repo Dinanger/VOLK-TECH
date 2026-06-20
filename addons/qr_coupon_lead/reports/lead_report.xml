@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        QR COUPON LEAD GENERATION REPORT
+        ========================================================================
+
+        Reports for lead generation analytics.
+        -->
+
+        <record id="report_qr_coupon_lead_generation" model="ir.actions.report">
+            <field name="name">Lead Generation Report</field>
+            <field name="model">crm.lead</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">qr_coupon_lead.report_lead_generation</field>
+            <field name="print_report_name">'Lead Generation Report'</field>
+        </record>
+
+        <template id="report_lead_generation">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Lead Generation Report</h2>
+                        <p>Generated from QR Coupon Claims</p>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Lead Name</th>
+                                    <th>Customer Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Coupon Code</th>
+                                    <th>Scan Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="lead">
+                                    <tr t-if="lead.coupon_id">
+                                        <td><t t-esc="lead.name"/></td>
+                                        <td><t t-esc="lead.partner_name"/></td>
+                                        <td><t t-esc="lead.email_from"/></td>
+                                        <td><t t-esc="lead.phone"/></td>
+                                        <td><t t-esc="lead.coupon_id.code"/></td>
+                                        <td><t t-if="lead.coupon_scan_id" t-esc="lead.coupon_scan_id.scan_date"/></td>
+                                        <td><t t-esc="lead.stage_id.name"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

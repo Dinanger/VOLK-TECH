@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        COUPON CLAIM FORM COMPONENT
+        ========================================================================
+
+        Reusable form component for coupon claims.
+        Can be included in coupon_page or used standalone.
+
+        This is primarily for template inheritance if needed in the future.
+        Currently embedded in coupon_page.xml
+        -->
+
+        <template id="coupon_claim_form" name="Coupon Claim Form">
+            <div class="claim-form-card card shadow-sm">
+
+                <div class="card-header bg-success text-white">
+                    <h3 class="mb-0">Claim Your Discount</h3>
+                </div>
+
+                <div class="card-body">
+                    <form method="post" t-attrib-action="form_action" class="needs-validation" novalidate="novalidate" id="coupon_claim_form">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                        <!-- Full Name Field -->
+                        <div class="mb-3">
+                            <label for="input_name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="input_name" name="name"
+                                   placeholder="John Doe" required="required" maxlength="100"/>
+                            <div class="invalid-feedback">
+                                Please provide a valid full name (2-100 characters, letters and spaces only).
+                            </div>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-3">
+                            <label for="input_email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="input_email" name="email"
+                                   placeholder="your.email@example.com" required="required"/>
+                            <div class="invalid-feedback">
+                                Please provide a valid email address.
+                            </div>
+                        </div>
+
+                        <!-- Phone Field -->
+                        <div class="mb-3">
+                            <label for="input_phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" id="input_phone" name="phone"
+                                   placeholder="(555) 123-4567" required="required"/>
+                            <div class="invalid-feedback">
+                                Please provide a valid phone number (at least 7 digits).
+                            </div>
+                        </div>
+
+                        <!-- Optional Message -->
+                        <div class="mb-3">
+                            <label for="input_message" class="form-label">Message (Optional)</label>
+                            <textarea class="form-control" id="input_message" name="message"
+                                      placeholder="Tell us how we can help..." rows="3" maxlength="500"/>
+                            <small class="form-text text-muted">Maximum 500 characters</small>
+                        </div>
+
+                        <!-- Privacy Notice -->
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="agree_terms" required="required"/>
+                                <label class="form-check-label" for="agree_terms">
+                                    I agree to receive communications and understand my data will be used to process this coupon claim.
+                                </label>
+                            </div>
+                            <small class="form-text text-muted d-block mt-2">
+                                We respect your privacy. See our privacy policy for details.
+                            </small>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-success btn-lg w-100" id="submit_claim">
+                            <i class="fa fa-check-circle"></i> Claim Discount
+                        </button>
+                    </form>
+
+                    <!-- Form Help Text -->
+                    <p class="text-muted text-center mt-3 small">
+                        Your information will be securely processed. We'll contact you shortly!
+                    </p>
+                </div>
+            </div>
+        </template>
+
+    </data>
+</odoo>

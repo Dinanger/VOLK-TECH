@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- GRAPH VIEW: Coupons by Status -->
+        <record id="graph_qr_coupon_by_status" model="ir.ui.view">
+            <field name="name">qr.coupon.graph.status</field>
+            <field name="model">qr.coupon</field>
+            <field name="arch" type="xml">
+                <graph type="pie" string="Coupons by Status">
+                    <field name="status"/>
+                    <field name="id" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- PIVOT VIEW: Coupon Analysis -->
+        <record id="pivot_qr_coupon_analysis" model="ir.ui.view">
+            <field name="name">qr.coupon.pivot</field>
+            <field name="model">qr.coupon</field>
+            <field name="arch" type="xml">
+                <pivot string="Coupon Analysis">
+                    <field name="status" type="row"/>
+                    <field name="discount_type" type="column"/>
+                    <field name="used_count" type="measure" widget="integer"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- GRAPH VIEW: Scans Over Time -->
+        <record id="graph_qr_coupon_scan_by_date" model="ir.ui.view">
+            <field name="name">qr.coupon.scan.graph.date</field>
+            <field name="model">qr.coupon.scan</field>
+            <field name="arch" type="xml">
+                <graph type="line" string="Scans Over Time">
+                    <field name="scan_date" type="row" interval="day"/>
+                    <field name="id" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- ACTION DASHBOARD: graph + pivot (sin vista dashboard de Enterprise) -->
+        <record id="action_qr_coupon_dashboard" model="ir.actions.act_window">
+            <field name="name">QR Coupon Dashboard</field>
+            <field name="res_model">qr.coupon</field>
+            <field name="view_mode">graph,pivot</field>
+            <field name="context">{'search_default_group_status': 1}</field>
+        </record>
+
+    </data>
+</odoo>

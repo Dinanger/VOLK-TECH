@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        SUCCESS PAGE TEMPLATE
+        ========================================================================
+
+        Displayed after successful coupon claim.
+        Shows confirmation and next steps.
+        -->
+
+        <template id="success_page" name="Coupon Claim Success">
+            <t t-call="website.layout">
+                <div id="wrap">
+                <div class="qr-coupon-success">
+                    <div class="container py-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+
+                                <!-- Success Card -->
+                                <div class="card shadow-lg">
+                                    <div class="card-header bg-success text-white text-center py-4">
+                                        <h2 class="mb-0">
+                                            <i class="fa fa-check-circle fa-2x"></i>
+                                        </h2>
+                                    </div>
+
+                                    <div class="card-body text-center">
+                                        <!-- Success Message -->
+                                        <h3 class="mb-3 text-success">Coupon Successfully Claimed!</h3>
+
+                                        <p class="text-muted mb-4">
+                                            Thank you! Your coupon has been registered and a representative will contact you shortly.
+                                        </p>
+
+                                        <!-- Coupon Summary -->
+                                        <div class="bg-light p-4 rounded mb-4">
+                                            <h6 class="text-muted">Coupon Details</h6>
+                                            <h4 class="font-monospace fw-bold" t-esc="coupon.code"/>
+
+                                            <hr/>
+
+                                            <div class="row text-center">
+                                                <div class="col-6">
+                                                    <small class="text-muted">Your Discount</small>
+                                                    <p class="fs-4 fw-bold text-success">
+                                                        <t t-esc="coupon.get_display_discount()"/>
+                                                    </p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <small class="text-muted">Valid Until</small>
+                                                    <p class="fs-5">
+                                                        <t t-esc="coupon.end_date.strftime('%B %d, %Y')"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Next Steps -->
+                                        <div class="alert alert-info">
+                                            <h6 class="alert-heading">What's Next?</h6>
+                                            <ul class="mb-0 text-start">
+                                                <li>Check your email for a confirmation</li>
+                                                <li>Our team will review your request</li>
+                                                <li>We'll contact you within 24 hours</li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Save QR Code -->
+                                        <div class="mb-4">
+                                            <p class="text-muted small">Save your coupon code for your records:</p>
+                                            <div class="bg-light p-3 rounded font-monospace fw-bold fs-6 user-select-all"
+                                                 t-esc="coupon.code"/>
+                                        </div>
+
+                                        <!-- Action Buttons -->
+                                        <div class="d-grid gap-2">
+                                            <a href="/" class="btn btn-primary">
+                                                <i class="fa fa-home"></i> Return Home
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

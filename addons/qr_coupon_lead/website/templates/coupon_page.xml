@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        COUPON PAGE TEMPLATE
+        ========================================================================
+
+        Main public page showing coupon details and claim form.
+        Displayed when customer scans QR code or visits /coupon/<code>
+
+        Layout:
+        - Header with coupon name and discount
+        - Description
+        - Coupon details (expiration, usage limit)
+        - QR code image
+        - Claim form (name, email, phone)
+        - Terms & conditions
+        -->
+
+        <template id="coupon_page" name="QR Coupon Claim Page">
+            <t t-call="website.layout">
+                <div id="wrap">
+                <div class="qr-coupon-container">
+
+                    <!-- Main Content -->
+                    <div class="container py-5">
+                        <div class="row justify-content-center">
+
+                            <!-- Left Column: Coupon Details -->
+                            <div class="col-lg-6">
+                                <div class="coupon-card card shadow-sm">
+
+                                    <!-- Header Section -->
+                                    <div class="card-header bg-primary text-white">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <h2 class="mb-0" t-esc="coupon.name"/>
+                                            </div>
+                                            <div class="col-auto">
+                                                <span class="badge bg-light text-dark fs-5">
+                                                    <t t-esc="coupon.get_display_discount()"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Body Section -->
+                                    <div class="card-body">
+
+                                        <!-- Description -->
+                                        <div class="mb-4">
+                                            <p class="text-muted" t-esc="coupon.description"/>
+                                        </div>
+
+                                        <!-- Coupon Details Grid -->
+                                        <div class="row mb-4">
+                                            <div class="col-sm-6">
+                                                <h6 class="text-muted">Coupon Code</h6>
+                                                <p class="fw-bold font-monospace fs-5" t-esc="coupon.code"/>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h6 class="text-muted">Expires</h6>
+                                                <p class="fw-bold">
+                                                    <t t-if="coupon.end_date">
+                                                        <t t-esc="coupon.end_date.strftime('%B %d, %Y')"/>
+                                                    </t>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Usage Progress -->
+                                        <div class="mb-4">
+                                            <h6 class="text-muted">Claims Remaining</h6>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar"
+                                                     t-attrib-style="'width: %d%%' % ((coupon.used_count * 100) // coupon.max_usage) if coupon.max_usage else 0"
+                                                     t-attrib-aria-valuenow="coupon.used_count"
+                                                     aria-valuemin="0"
+                                                     t-attrib-aria-valuemax="coupon.max_usage"/>
+                                            </div>
+                                            <small class="text-muted">
+                                                <t t-esc="coupon.max_usage - coupon.used_count"/> / <t t-esc="coupon.max_usage"/> remaining
+                                            </small>
+                                        </div>
+
+                                        <!-- QR Code Display -->
+                                        <div class="mb-4 text-center">
+                                            <h6 class="text-muted mb-3">QR Code</h6>
+                                            <img class="qr-code-image" t-if="coupon.qr_code"
+                                                 t-attrib-src="'data:image/png;base64,%s' % coupon.qr_code.decode('utf-8')"
+                                                 alt="QR Code"/>
+                                        </div>
+
+                                        <!-- Terms -->
+                                        <div class="alert alert-info small">
+                                            <strong>Terms:</strong> This coupon is valid from
+                                            <t t-esc="coupon.start_date.strftime('%B %d, %Y')"/> to
+                                            <t t-esc="coupon.end_date.strftime('%B %d, %Y')"/>.
+                                            This is a promotional offer for new customers.
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Column: Claim Form -->
+                            <div class="col-lg-6">
+                                <div class="claim-form-card card shadow-sm">
+
+                                    <div class="card-header bg-success text-white">
+                                        <h3 class="mb-0">Claim Your Discount</h3>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <form method="post" t-attrib-action="form_action" class="needs-validation" novalidate="novalidate" id="coupon_claim_form">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                            <!-- Full Name Field -->
+                                            <div class="mb-3">
+                                                <label for="input_name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="input_name" name="name"
+                                                       placeholder="John Doe" required="required" maxlength="100"/>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid full name.
+                                                </div>
+                                            </div>
+
+                                            <!-- Email Field -->
+                                            <div class="mb-3">
+                                                <label for="input_email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" id="input_email" name="email"
+                                                       placeholder="your.email@example.com" required="required"/>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid email address.
+                                                </div>
+                                            </div>
+
+                                            <!-- Phone Field -->
+                                            <div class="mb-3">
+                                                <label for="input_phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                                <input type="tel" class="form-control" id="input_phone" name="phone"
+                                                       placeholder="(555) 123-4567" required="required"/>
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid phone number.
+                                                </div>
+                                            </div>
+
+                                            <!-- Optional Message -->
+                                            <div class="mb-3">
+                                                <label for="input_message" class="form-label">Message (Optional)</label>
+                                                <textarea class="form-control" id="input_message" name="message"
+                                                          placeholder="Tell us how we can help..." rows="3" maxlength="500"/>
+                                            </div>
+
+                                            <!-- Privacy Notice -->
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="agree_terms" required="required"/>
+                                                    <label class="form-check-label" for="agree_terms">
+                                                        I agree to receive communications and understand my data will be used to process this coupon claim.
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <!-- Submit Button -->
+                                            <button type="submit" class="btn btn-success btn-lg w-100">
+                                                <i class="fa fa-check-circle"></i> Claim Discount
+                                            </button>
+                                        </form>
+
+                                        <!-- Form Help Text -->
+                                        <p class="text-muted text-center mt-3 small">
+                                            Your information will be securely processed. We'll contact you shortly!
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

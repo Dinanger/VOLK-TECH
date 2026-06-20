@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--
+        ========================================================================
+        SECURITY GROUPS
+        ========================================================================
+
+        Define role-based access groups for coupon management.
+        Users assigned to these groups get specific permissions.
+
+        Groups Hierarchy:
+        1. Manager (Full access)
+        2. Viewer (Read-only)
+        3. CRM User (Create leads)
+        -->
+
+        <!-- QR Coupon Manager Group -->
+        <record id="group_qr_coupon_manager" model="res.groups">
+            <field name="name">QR Coupon Manager</field>
+            <field name="category_id" ref="base.module_category_sales"/>
+            <field name="comment">Can create, edit, and delete QR coupons. Can view analytics and reports.</field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- QR Coupon Viewer Group -->
+        <record id="group_qr_coupon_viewer" model="res.groups">
+            <field name="name">QR Coupon Viewer</field>
+            <field name="category_id" ref="base.module_category_sales"/>
+            <field name="comment">Can view QR coupons and scan records. Read-only access.</field>
+            <field name="users" eval="[]"/>
+        </record>
+
+        <!-- QR Coupon Lead Creator Group -->
+        <record id="group_qr_coupon_lead_creator" model="res.groups">
+            <field name="name">QR Coupon Lead Creator</field>
+            <field name="category_id" ref="base.module_category_sales"/>
+            <field name="comment">Can view leads generated from coupons.</field>
+            <field name="users" eval="[]"/>
+            <field name="implied_ids" eval="[(4, ref('crm.group_use_lead'))]"/>
+        </record>
+
+    </data>
+</odoo>

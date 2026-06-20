@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        QR COUPON PERFORMANCE REPORT
+        ========================================================================
+
+        Reports for coupon analytics and performance tracking.
+        -->
+
+        <record id="report_qr_coupon_performance" model="ir.actions.report">
+            <field name="name">Coupon Performance Report</field>
+            <field name="model">qr.coupon</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">qr_coupon_lead.report_coupon_performance</field>
+            <field name="print_report_name">'Coupon Performance - ' + object.code</field>
+        </record>
+
+        <template id="report_coupon_performance">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="object">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            <t t-esc="object.name"/> (<t t-esc="object.code"/>)
+                        </h2>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Coupon Details</h4>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Status:</td>
+                                        <td><t t-esc="object.status"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Valid From:</td>
+                                        <td><t t-esc="object.start_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Expires:</td>
+                                        <td><t t-esc="object.end_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Discount:</td>
+                                        <td><t t-esc="object.get_display_discount()"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <h4>Usage Statistics</h4>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Total Claims:</td>
+                                        <td><t t-esc="object.used_count"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maximum Allowed:</td>
+                                        <td><t t-esc="object.max_usage"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Remaining:</td>
+                                        <td><t t-esc="object.max_usage - object.used_count"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Usage Rate:</td>
+                                        <td>
+                                            <t t-esc="'%.1f' % ((object.used_count * 100) / object.max_usage if object.max_usage else 0)"/>%
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4">Scan Records</h4>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>IP Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="object.scans_ids" t-as="scan">
+                                    <tr>
+                                        <td><t t-esc="scan.scan_date"/></td>
+                                        <td><t t-esc="scan.customer_name"/></td>
+                                        <td><t t-esc="scan.customer_email"/></td>
+                                        <td><t t-esc="scan.customer_phone"/></td>
+                                        <td><t t-esc="scan.ip_address"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

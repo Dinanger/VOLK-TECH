@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        QR COUPON MENU STRUCTURE
+        ========================================================================
+
+        Menu Hierarchy:
+        - Sales
+          └── QR Coupons (parent menu)
+              ├── Coupons (list action)
+              ├── Scans (list action)
+              └── Dashboard (dashboard action)
+        -->
+
+        <!-- Parent Menu: QR Coupons -->
+        <menuitem id="menu_qr_coupon_parent" name="QR Coupons" parent="sale.sale_menu_root" sequence="10"/>
+
+        <!-- Menu Item: Coupons (main list) -->
+        <menuitem
+            id="menu_qr_coupon"
+            name="Coupons"
+            parent="menu_qr_coupon_parent"
+            action="action_qr_coupon"
+            sequence="10"/>
+
+        <!-- Menu Item: Scans (tracking list) -->
+        <menuitem
+            id="menu_qr_coupon_scan"
+            name="Scan Tracking"
+            parent="menu_qr_coupon_parent"
+            action="action_qr_coupon_scan"
+            sequence="20"/>
+
+        <!-- Menu Item: Dashboard -->
+        <menuitem
+            id="menu_qr_coupon_dashboard"
+            name="Dashboard"
+            parent="menu_qr_coupon_parent"
+            action="action_qr_coupon_dashboard"
+            sequence="30"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,346 @@
+/**
+ * QR Coupon Lead - Website Styling
+ *
+ * Responsive design for coupon pages:
+ * - Coupon display page
+ * - Claim form
+ * - Success page
+ * - Error pages
+ *
+ * Mobile-first approach with Bootstrap 5 utilities
+ */
+
+/* ========================================================================
+   QR COUPON CONTAINER
+   ======================================================================== */
+
+.qr-coupon-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    padding: 40px 20px;
+}
+
+.qr-coupon-success,
+.qr-coupon-error {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    padding: 40px 20px;
+}
+
+/* ========================================================================
+   CARD STYLES
+   ======================================================================== */
+
+.coupon-card,
+.claim-form-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.coupon-card:hover,
+.claim-form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+.coupon-card .card-header {
+    border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================================================
+   QR CODE IMAGE
+   ======================================================================== */
+
+.qr-code-image {
+    max-width: 250px;
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    background: white;
+    border: 3px solid #f0f0f0;
+    border-radius: 8px;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================================================
+   FORM STYLES
+   ======================================================================== */
+
+#coupon_claim_form {
+    font-size: 1rem;
+}
+
+#coupon_claim_form .form-control {
+    border-radius: 6px;
+    border: 2px solid #e0e0e0;
+    padding: 10px 15px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#coupon_claim_form .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+#coupon_claim_form .form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+#coupon_claim_form .form-control.is-valid {
+    border-color: #28a745;
+}
+
+#coupon_claim_form .form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+#coupon_claim_form .invalid-feedback {
+    display: block;
+    font-size: 0.875rem;
+    color: #dc3545;
+}
+
+/* ========================================================================
+   BUTTON STYLES
+   ======================================================================== */
+
+.btn-success,
+.btn-primary {
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 12px 24px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-success:hover,
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#submit_claim {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+}
+
+#submit_claim:hover {
+    background: linear-gradient(135deg, #218838 0%, #1aa179 100%);
+}
+
+/* ========================================================================
+   BADGE & PROGRESS
+   ======================================================================== */
+
+.badge {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.progress {
+    height: 24px;
+    border-radius: 12px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    transition: width 0.3s ease;
+}
+
+/* ========================================================================
+   ALERT STYLES
+   ======================================================================== */
+
+.alert {
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.alert li {
+    margin-bottom: 5px;
+}
+
+/* ========================================================================
+   RESPONSIVE LAYOUT
+   ======================================================================== */
+
+@media (max-width: 768px) {
+    .qr-coupon-container,
+    .qr-coupon-success,
+    .qr-coupon-error {
+        padding: 20px 15px;
+    }
+
+    .coupon-card,
+    .claim-form-card {
+        margin-bottom: 20px;
+    }
+
+    .card-header h2,
+    .card-header h3 {
+        font-size: 1.5rem;
+    }
+
+    #coupon_claim_form .form-control {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 12px 15px;
+    }
+
+    .qr-code-image {
+        max-width: 200px;
+    }
+
+    .btn-success,
+    .btn-primary {
+        font-size: 0.95rem;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .card-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .card-body {
+        padding: 1.25rem 1rem;
+    }
+
+    #coupon_claim_form .form-control {
+        font-size: 16px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+/* ========================================================================
+   UTILITY CLASSES
+   ======================================================================== */
+
+.font-monospace {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+
+.user-select-all {
+    user-select: all;
+    -webkit-user-select: all;
+    -moz-user-select: all;
+    -ms-user-select: all;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ========================================================================
+   LOADING & STATES
+   ======================================================================== */
+
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.form-control:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+/* ========================================================================
+   SUCCESS STATE ANIMATIONS
+   ======================================================================== */
+
+@keyframes bounce-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.qr-coupon-success .card {
+    animation: bounce-in 0.5s ease-out;
+}
+
+/* ========================================================================
+   ACCESSIBILITY
+   ======================================================================== */
+
+.form-label {
+    display: block;
+}
+
+.form-check-input {
+    cursor: pointer;
+}
+
+.form-check-label {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+button, a.btn {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+button:focus, a.btn:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
