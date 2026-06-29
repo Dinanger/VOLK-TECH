@@ -192,10 +192,11 @@ class QRCoupon(models.Model):
 
     @api.depends('code')
     def _compute_public_url(self):
-        """Generate public URL for accessing coupon"""
+        """Generate full public URL for accessing coupon (including base domain)"""
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url', '')
         for coupon in self:
             if coupon.code:
-                coupon.public_url = f'/coupon/{coupon.code}'
+                coupon.public_url = f'{base_url}/coupon/{coupon.code}'
             else:
                 coupon.public_url = ''
 

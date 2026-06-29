@@ -4,3 +4,5 @@ access_qr_coupon_viewer,QR Coupon - Viewer,model_qr_coupon,group_qr_coupon_viewe
 access_qr_coupon_scan_manager,QR Coupon Scan - Manager,model_qr_coupon_scan,group_qr_coupon_manager,1,0,0,0
 access_qr_coupon_scan_viewer,QR Coupon Scan - Viewer,model_qr_coupon_scan,group_qr_coupon_viewer,1,0,0,0
 access_qr_coupon_scan_creator,QR Coupon Scan - Lead Creator,model_qr_coupon_scan,group_qr_coupon_lead_creator,1,0,0,0
+access_sale_order_qr_coupon_manager,Sale Order QR Coupon - Manager,model_sale_order,group_qr_coupon_manager,1,1,0,0
+access_sale_order_qr_coupon_viewer,Sale Order QR Coupon - Viewer,model_sale_order,group_qr_coupon_viewer,1,0,0,0

@@ -1,6 +1,6 @@
 {
     'name': 'QR Coupon Lead Generator',
-    'version': '18.0.1.0.0',
+    'version': '18.0.1.0.1',
     'category': 'Sales/CRM',
     'author': 'Volk Tech',
     'summary': 'Automated QR Coupon system generating CRM Leads when customers scan QR codes',
@@ -18,6 +18,7 @@
     - One-time usage validation per coupon
     - Discount management (Percentage or Fixed Amount)
     - Production-ready security implementation
+    - Auto-apply coupon discount when adding products to quotation
 
     Technical Stack:
     - Odoo 18 Community (no Enterprise features)
@@ -43,10 +44,11 @@
         # Data (Sequences)
         'data/sequence_data.xml',
 
-      'views/qr_coupon_views.xml',
-      'views/qr_coupon_scan_views.xml',
-      'views/dashboard_views.xml',
-      'views/menus.xml',
+        'views/qr_coupon_views.xml',
+        'views/qr_coupon_scan_views.xml',
+        'views/sale_order_views.xml',
+        'views/dashboard_views.xml',
+        'views/menus.xml',
 
         # Website
         'website/templates/coupon_page.xml',
@@ -60,8 +62,8 @@
     ],
     'assets': {
         'web.assets_frontend': [
-            'qr_coupon_lead/website/static/css/coupon_style.css',
-            'qr_coupon_lead/website/static/js/coupon_form.js',
+            'qr_coupon_lead/static/src/css/coupon_style.css',
+            'qr_coupon_lead/static/src/js/coupon_form.js',
         ],
     },
     'installable': True,

@@ -1,7 +1,10 @@
 import re
+import logging
 from odoo import http, fields
 from odoo.http import request
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class QRCouponController(http.Controller):
@@ -283,9 +286,11 @@ class QRCouponController(http.Controller):
             return request.redirect(f'/coupon/success/{coupon_code}')
 
         except ValidationError as e:
+            _logger.warning("ValidationError al reclamar cupón %s: %s", coupon_code, str(e))
             return request.redirect(f'/coupon/error/invalid')
         except Exception as e:
-            # Log error but don't expose internals to user
+            # Registrar el error completo en odoo.log para diagnóstico
+            _logger.exception("Error inesperado al procesar claim del cupón %s", coupon_code)
             request.env.cr.rollback()
             return request.redirect(f'/coupon/error/error')
 

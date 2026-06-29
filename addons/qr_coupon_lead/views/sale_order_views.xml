@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        ========================================================================
+        SALE ORDER — Inherit form to show QR Coupon field
+        ========================================================================
+        Shows qr_coupon_id on the sale order form so the salesperson can
+        see which coupon is linked (read-only, set automatically from the lead).
+        -->
+
+        <record id="view_sale_order_form_qr_coupon" model="ir.ui.view">
+            <field name="name">sale.order.form.qr_coupon</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='note']" position="before">
+                    <field name="qr_coupon_id"
+                           readonly="1"
+                           invisible="not qr_coupon_id"
+                           string="QR Coupon aplicado"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
